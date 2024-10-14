@@ -1,164 +1,245 @@
-# Victor Aranda RM99667
+# README - CHECKPOINT 1 | 2 SEMESTRE - MULTIPLICAÇÃO DE MATRIZES
+# RM98690 - JULIA AZEVEDO LINS
+# RM99210 - LUIS GUSTAVO BARRETO GARRIDO
 
-# Projeto de Multiplicação de Matrizes de 
+## Objetivo
 
-Este projeto é um Jupyter Notebook projetado para realizar multiplicação de matrizes. Ele permite que os usuários criem e multipliquem matrizes, seja inserindo manualmente as dimensões ou gerando matrizes aleatórias. O notebook utiliza widgets interativos para uma experiência amigável ao usuário.
+O objetivo deste projeto é implementar e comparar diferentes métodos de multiplicação de matrizes, incluindo o método tradicional, o método de Winograd, o método de Strassen, o método Sparse e o método Fox. Cada método é avaliado quanto ao desempenho e eficiência usando uma interface interativa para visualizar resultados e tempos de execução.
 
-## Sumário
+## Métodos
 
-- [Recursos](#recursos)
-- [Primeiros Passos](#primeiros-passos)
-  - [Pré-requisitos](#pré-requisitos)
-  - [Instalação](#instalação)
-- [Uso](#uso)
-- [Conclusão](#conclusão)
-  - [Matriz A](#matriz-a)
-  - [Matriz B](#matriz-b)
-  - [Resultado Esperado](#resultado-esperado)
-  - [Comparação dos Métodos](#comparação-dos-métodos)
-    - [1. Multiplicação Simples](#1-multiplicação-simples)
-    - [2. Strassen](#2-strassen)
-    - [3. Winograd](#3-winograd)
-    - [4. Karstadt](#4-karstadt)
-    - [5. Recursão](#5-recursão)
-  - [Análise dos Resultados Apresentados](#análise-dos-resultados-apresentados)
-  - [Fatores a Considerar na Escolha do Método](#fatores-a-considerar-na-escolha-do-método)
-  - [Gráfico de Desempenho](#gráfico-de-desempenho)
-  - [Considerações Finais](#considerações-finais)
-- [License](#license)
+### Método Tradicional
 
+O método tradicional realiza a multiplicação de matrizes usando a abordagem clássica. O código permite ajustar os tamanhos das matrizes e medir o tempo de execução. Utilizamos bibliotecas como NumPy, Matplotlib, IPyWidgets, e PrettyTable.
 
-## Recursos
+#### Funções
 
-- **Gerar Matrizes**: Os usuários podem especificar o número de linhas e colunas para duas matrizes, que são então criadas com a opção de preencher com valores aleatórios.
-- **Multiplicação de Matrizes**: Uma vez que as matrizes são geradas, os usuários podem calcular seu produto com um simples clique de botão.
-- **Widgets Interativos**: O notebook usa widgets para entrada, facilitando a interação com as matrizes e a visualização dos resultados.
+1. **basic_matrix_product(A, B)**
+   - Realiza a multiplicação de duas matrizes `A` e `B`.
+   - **Parâmetros**: `A` e `B` (np.array)
+   - **Retorno**: Matrizes resultantes da multiplicação.
 
-## Primeiros Passos
+2. **measure_time(A, B)**
+   - Mede o tempo de execução da multiplicação.
+   - **Parâmetros**: `A` e `B` (np.array)
+   - **Retorno**: Tempo de execução em segundos.
 
-### Pré-requisitos
+3. **generate_matrices(rows_A, cols_A)**
+   - Gera duas matrizes aleatórias com valores inteiros entre 0 e 9.
+   - **Parâmetros**: `rows_A` (int), `cols_A` (int)
+   - **Retorno**: Matrizes aleatórias `A` e `B`.
 
-- Python 3.x
-- Jupyter Notebook
-- Bibliotecas Python necessárias (NumPy, ipywidgets, matplotlib, memory-profiler, tabulate)
+4. **update_matrices(rows_A, cols_A)**
+   - Atualiza e multiplica matrizes com tamanhos especificados.
+   - **Parâmetros**: `rows_A` (int), `cols_A` (int)
+   - **Retorno**: Tempo de execução da multiplicação.
 
-### Instalação
+5. **test_execution_times()**
+   - Testa o tempo de execução para tamanhos variados de matrizes e plota um gráfico.
+   - **Retorno**: Nenhum.
 
-1. Instale as bibliotecas necessárias:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Inicie o Jupyter Notebook:
-   ```bash
-   jupyter notebook
-   ```
+#### Widgets
 
-### Usage
+- **IntSlider (rows_A_widget)**: Ajusta o número de linhas da matriz `A`.
+- **IntSlider (cols_A_widget)**: Ajusta o número de colunas da matriz `A`.
+- **Button (button)**: Realiza a multiplicação das matrizes.
+- **Button (button_time)**: Testa o tempo de execução para diferentes tamanhos de matrizes.
+- **HTML (title)**: Exibe o título do projeto.
 
-1. Abra o `Victor Aranda_RM99667.pyinb` notebook.
-2. Especifique as dimensões para a Matriz A e a Matriz B.
-3. Clique em "Generate Matrices" para criar as matrizes.
-4. Opcionalmente, gere matrizes aleatórias clicando em "Generate Random Matrices".
-5. Clique em "Calculate" para realizar a multiplicação de matrizes.
-6. A matriz resultante será exibida no notebook.
+### Método Winograd
 
-## Conclusão
+O método de Winograd é uma otimização da multiplicação tradicional que reduz o número de operações. O código permite gerar matrizes aleatórias e medir o tempo de execução, com gráficos e tabelas para visualização dos resultados.
 
-Neste projeto, implementamos e comparamos diferentes métodos de multiplicação de matrizes utilizando as matrizes A e B. A seguir, discutimos as vantagens e desvantagens de cada método com base nos resultados obtidos, que incluem o tempo de execução e o uso de memória.
+#### Funções
 
-### Matriz A
+1. **winograd_matrix_multiplication(A, B)**
+   - Implementa a multiplicação usando o método de Winograd.
+   - **Parâmetros**: `A`, `B`
+   - **Retorno**: Matriz resultante da multiplicação.
 
-| 49 | 39 |  6 |
-|----|----|----|
-| 32 |  4 |  5 |
+2. **measure_time(A, B)**
+   - Mede o tempo de execução usando `timeit`.
+   - **Parâmetros**: `A`, `B`
+   - **Retorno**: Tempo total de execução em segundos.
 
+3. **generate_matrices(rows_A, cols_A)**
+   - Gera matrizes aleatórias com valores entre 0 e 9.
+   - **Parâmetros**: `rows_A`, `cols_A`
+   - **Retorno**: Matrizes `A` e `B`.
 
-### Matriz B
+4. **update_matrices(rows_A, cols_A)**
+   - Atualiza matrizes e exibe resultados e tempo de execução.
+   - **Parâmetros**: `rows_A`, `cols_A`
+   - **Retorno**: Tempo de execução.
 
-| 25 | 40 |
-|----|----|
-| 47 | 12 |
-| 46 | 14 |
+5. **test_execution_times()**
+   - Plota o tempo de execução para diferentes tamanhos de matrizes.
+   - **Detalhes**: Matrizes de 2x2 a 10x10.
 
-### Resultado Esperado
+#### Widgets
 
-| 3334 | 2512 |
-|------|------|
-| 1218 | 1398 |
+- **rows_A_widget**: Slider para ajustar o número de linhas da matriz `A`.
+- **cols_A_rows_B_widget**: Slider para ajustar o número de colunas da matriz `A` e linhas da matriz `B`.
+- **button**: Executa a multiplicação das matrizes.
+- **button_time**: Testa o tempo de execução.
 
+### Método Strassen
 
-## Comparação dos Métodos
+O método de Strassen é uma técnica recursiva que melhora a eficiência da multiplicação de matrizes, especialmente para matrizes grandes.
 
-### 1. **Multiplicação Simples**:
+#### Funções
 
-   - **Vantagens**
-    - Algoritmo intuitivo e fácil de implementar.
-   - **Desvantagens**
-    - Baixa eficiência para matrizes grandes, pois realiza um grande número de multiplicações individuais.
+1. **strassen(A, B, threshold=64)**
+   - Realiza a multiplicação usando o método de Strassen ou padrão.
+   - **Parâmetros**: `A`, `B`, `threshold`
+   - **Retorno**: Matriz resultante.
 
-### 2. **Strassen**:
-   - **Vantagens**
-    - Algoritmo de divisão e conquista que reduz o número de multiplicações em relação ao método simples, especialmente para matrizes grandes.
-   - **Desvantagens**
-    - Maior complexidade de implementação e pode apresentar sobrecarga para matrizes pequenas devido à divisão recursiva.
+2. **split_matrix(matrix)**
+   - Divide uma matriz em quatro submatrizes.
+   - **Parâmetros**: `matrix`
+   - **Retorno**: Quatro submatrizes.
 
-### 3. **Winograd**:
-   - **Vantagens**
-    - Geralmente mais rápido que o método simples e Strassen para matrizes de tamanho específico, reduzindo o número de multiplicações e adições.
-   - **Desvantagens**
-    - Complexidade de implementação e pode não ser o mais eficiente para todos os tamanhos de matriz.
+3. **next_power_of_2(x)**
+   - Calcula a próxima potência de 2 maior ou igual a `x`.
+   - **Parâmetros**: `x`
+   - **Retorno**: Próxima potência de 2.
 
-### 4. **Karstadt**:
-   - **Vantagens**
-    - Similar ao Strassen, utiliza a divisão e conquista para reduzir o número de multiplicações e em certos casos diminui o numero de interações.
-   - **Desvantagens**
-    - Complexidade de implementação e pode não ser o mais eficiente para todos os casos.
+4. **run_strassen(A, B)**
+   - Mede o tempo de execução da função `strassen`.
+   - **Parâmetros**: `A`, `B`
+   - **Retorno**: Tempo total de execução em segundos.
 
-### 5. **Recursão**:
-   - **Vantagens**
-    - Pode ser eficiente para determinados tipos de matrizes e estruturas de dados.
-   - **Desvantagens**
-    - Risco de estouro de pilha para matrizes grandes e pode ser menos eficiente que outros métodos em muitos casos.
+5. **average_time(A, B, number=1000, repetitions=3)**
+   - Calcula o tempo médio de execução.
+   - **Parâmetros**: `A`, `B`, `number`, `repetitions`
+   - **Retorno**: Lista de tempos e tempo médio.
 
+6. **print_matrix(matrix, title="Matriz")**
+   - Imprime uma matriz formatada.
+   - **Parâmetros**: `matrix`, `title`
 
-## Análise dos Resultados Apresentados
+7. **generate_random_matrix(rows, cols)**
+   - Gera uma matriz aleatória com valores entre 0 e 9.
+   - **Parâmetros**: `rows`, `cols`
+   - **Retorno**: Matriz gerada.
 
-Com base nos dados fornecidos, fizemos as seguintes observações:
+8. **update_execution(rows_A, cols_A_rows_B)**
+   - Atualiza as matrizes e mede o tempo de execução.
+   - **Parâmetros**: `rows_A`, `cols_A_rows_B`
 
-- **Tempo de Execução:** O método de Recursão apresentou o melhor desempenho neste caso específico. Contudo, o tempo de execução pode variar com o tamanho das matrizes e as especificações do hardware utilizado.
-  
-- **Uso de Memória:** Os métodos mostraram um uso de memória semelhante, com pequenas variações entre eles.
-  
-- **Precisão:** Todos os métodos produziram os mesmos resultados, o que indica que a precisão numérica não foi comprometida.
+#### Widgets
 
-## Fatores a Considerar na Escolha do Método
+- **rows_A_widget**: Slider para ajustar o número de linhas da matriz `A`.
+- **cols_A_rows_B_widget**: Slider para ajustar o número de colunas da matriz `A` e linhas da matriz `B`.
+- **button**: Executa a multiplicação de Strassen.
 
-Ao escolher o método de multiplicação de matrizes, considere os seguintes fatores:
+### Método Sparse
 
-- **Tamanho das Matrizes:** Para matrizes pequenas, métodos mais simples podem ser adequados. Para matrizes maiores, algoritmos como Strassen, Winograd e Karatsuba podem oferecer melhor eficiência.
+O método Sparse é utilizado para a multiplicação de matrizes esparsas, ou seja, matrizes em que a maioria dos elementos são zeros. Este método é otimizado para lidar com matrizes grandes onde a maioria dos valores é zero, economizando memória e tempo de processamento.
 
-- **Hardware:** O desempenho pode ser afetado pela arquitetura do processador, presença de unidades de processamento gráfico (GPUs) e memória disponível.
+#### Funções
 
-- **Precisão Numérica:** A precisão dos resultados pode variar entre os métodos, especialmente para matrizes com elementos de ponto flutuante.
+1. **sparse_matrix_multiplication(A, B)**
+   - Realiza a multiplicação de duas matrizes esparsas `A` e `B`.
+   - **Parâmetros**: `A` (np.array), `B` (np.array)
+   - **Retorno**: Matriz esparsa resultante da multiplicação.
 
-- **Complexidade de Implementação:** Algoritmos mais avançados, como Strassen e Winograd, requerem uma implementação mais cuidadosa.
+2. **generate_sparse_matrix(rows, cols, density)**
+   - Gera uma matriz esparsa com a densidade especificada.
+   - **Parâmetros**: `rows` (int), `cols` (int), `density` (float)
+   - **Retorno**: Matriz esparsa gerada.
 
-- **Requisitos da Aplicação:** A escolha do método também deve considerar outros fatores, como a necessidade de paralelização, tolerância a erros e tempo disponível para o desenvolvimento.
+3. **measure_sparse_time(A, B)**
+   - Mede o tempo de execução da multiplicação de matrizes esparsas.
+   - **Parâmetros**: `A`, `B`
+   - **Retorno**: Tempo de execução em segundos.
 
+4. **update_sparse_matrices(rows, cols, density)**
+   - Atualiza matrizes esparsas e mede o tempo de execução.
+   - **Parâmetros**: `rows`, `cols`, `density`
+   - **Retorno**: Tempo de execução.
 
+5. **test_sparse_execution_times()**
+   - Testa o tempo de execução para diferentes densidades de matrizes esparsas e plota um gráfico.
+   - **Detalhes**: Densidades de 0.1 a 0.9.
 
-### Gráfico de Desempenho
-![alt text](image.png)
+#### Widgets
 
-### Considerações Finais
+- **rows_widget**: Slider para ajustar o número de linhas da matriz.
+- **cols_widget**: Slider para ajustar o número de colunas da matriz.
+- **density_widget**: Slider para ajustar a densidade de elementos não zero na matriz.
+- **button_sparse**: Realiza a multiplicação das matrizes esparsas.
+- **button_sparse_time**: Testa o tempo de execução para diferentes densidades.
 
-O metodo de Karstadt é uma variação do método de Strassen, que utiliza a divisão e conquista para reduzir o número de multiplicações e adições. Em certos casos, o método de Karstadt pode ser mais eficiente que o método de Strassen, especialmente para matrizes de tamanho específico. No entanto, a complexidade de implementação e a eficiência do método podem variar dependendo do tamanho e da estrutura das matrizes.
-A utilização desse metodo foi feita com o auxilio de pesquisas tutoriais, inteligencias artificiais e artigos cientificos:
+### Método Fox
 
-Documentos de referencia [Poster de Karstadt](./ks-poster.pdf). 
+O método Fox é uma abordagem paralelizada para a multiplicação de matrizes, projetada para melhorar o desempenho em arquiteturas paralelas. Este método divide o problema em subproblemas menores que podem ser resolvidos simultaneamente em diferentes processadores.
 
-Artigo cientifico [Artigo de Karstadt](./SPAA17-MatMul-a-Little-Faster.pdf).
+#### Funções
 
-## License
+1. **fox_algorithm(A, B)**
+   - Implementa a multiplicação de matrizes usando o método Fox.
+   - **Parâmetros**: `A`, `B`
+   - **Retorno**: Matriz resultante da multiplicação.
 
-This project is open-source and available under the [MIT License](LICENSE).
+2. **split_matrix_into_blocks(matrix, block_size)**
+   - Divide uma matriz em blocos menores.
+   - **Parâmetros**: `matrix`, `block_size`
+   - **Retorno**: Lista de blocos.
+
+3. **reassemble_blocks(blocks, size)**
+   - Reúne blocos em uma matriz.
+   - **Parâmetros**: `blocks`, `size`
+   - **Retorno**: Matriz reunida.
+
+4. **measure_fox_time(A, B)**
+   - Mede o tempo de execução da multiplicação usando o método Fox.
+   - **Parâmetros**: `A`, `B`
+   - **Retorno**: Tempo total de execução em segundos.
+
+5. **test_fox_execution_times()**
+   - Testa o tempo de execução para diferentes tamanhos de blocos e plota um gráfico.
+   - **Detalhes**: Tamanhos de blocos variando de 2x2 a 8x8.
+
+#### Widgets
+
+- **block_size_widget**: Slider para ajustar o tamanho dos blocos.
+- **button_fox**: Executa a multiplicação usando o método Fox.
+- **button_fox_time**: Testa o tempo de execução para diferentes tamanhos de blocos.
+
+## Resultados
+
+### Tempos de Execução
+
+**Matriz Pequena (10x10)**
+- Tradicional: 0.0771007 s
+- Winograd: 0.0614232 s
+- Strassen: 0.0462889 s
+- Sparse: 0.0719347 s
+- Fox: 0.0557455 s
+
+**Matriz Grande (100x100)**
+- Tradicional: 3.188278 s
+- Winograd: 2.573849 s
+- Strassen: 1.859345 s
+- Sparse: 3.101789 s
+- Fox: 2.346278 s
+
+### Conclusões
+
+1. **Desempenho do Algoritmo Tradicional**
+   - O algoritmo tradicional apresenta um desempenho consistente, mas não é o mais eficiente para matrizes grandes.
+
+2. **Desempenho do Algoritmo Winograd**
+   - O método de Winograd oferece uma melhoria significativa no tempo de execução para matrizes grandes em comparação com o algoritmo tradicional, reduzindo o tempo de execução.
+
+3. **Desempenho do Algoritmo Strassen**
+   - O método de Strassen mostra um desempenho superior ao tradicional e ao Winograd para matrizes grandes, demonstrando sua eficácia para multiplicação de matrizes grandes.
+
+4. **Desempenho do Algoritmo Sparse**
+   - O método Sparse é eficiente para matrizes esparsas, mas não se destaca tanto quanto os métodos Strassen e Winograd para matrizes densas.
+
+5. **Desempenho do Algoritmo Fox**
+   - O algoritmo Fox apresenta um desempenho competitivo, especialmente para matrizes grandes, mostrando que pode ser uma alternativa viável para a multiplicação de matrizes em larga escala.
+
+Esta análise destaca a importância de escolher o algoritmo adequado com base no tamanho e na natureza das matrizes para otimizar o desempenho de multiplicação.
