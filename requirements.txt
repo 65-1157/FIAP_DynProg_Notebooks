@@ -1,0 +1,6 @@
+
+numpy
+ipywidgets
+matplotlib
+memory-profiler
+tabulate
