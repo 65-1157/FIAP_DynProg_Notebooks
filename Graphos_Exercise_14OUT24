@@ -1,0 +1,85 @@
+import time
+import heapq
+import matplotlib.pyplot as plt
+
+# Dijkstra Algorithm
+def dijkstra(graph, start):
+    distances = {node: float('infinity') for node in graph}
+    distances[start] = 0
+    priority_queue = [(0, start)]
+    
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
+        
+        if current_distance > distances[current_node]:
+            continue
+        
+        for neighbor, weight in graph[current_node]:
+            distance = current_distance + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(priority_queue, (distance, neighbor))
+    
+    return distances
+
+# Bellman-Ford Algorithm
+def bellman_ford(graph, start):
+    distances = {node: float('infinity') for node in graph}
+    distances[start] = 0
+    
+    for _ in range(len(graph) - 1):
+        for node in graph:
+            for neighbor, weight in graph[node]:
+                if distances[node] + weight < distances[neighbor]:
+                    distances[neighbor] = distances[node] + weight
+    
+    # Verifica ciclos negativos
+    for node in graph:
+        for neighbor, weight in graph[node]:
+            if distances[node] + weight < distances[neighbor]:
+                print("Ciclo negativo detectado!")
+                return None
+    
+    return distances
+
+# Função para medir tempo de execução
+def measure_time(algorithm, graph, start):
+    start_time = time.time()
+    algorithm(graph, start)
+    return time.time() - start_time
+
+# Gerando gráficos de tempos de execução
+def generate_graph_data(max_nodes=10):
+    dijkstra_times = []
+    bellman_ford_times = []
+
+    for num_nodes in range(2, max_nodes+1):
+        # Criação de um grafo simples com num_nodes nós
+        graph = {chr(65+i): [(chr(65+j), i + j + 1) for j in range(i+1, num_nodes)] for i in range(num_nodes)}
+
+        # Medindo o tempo para Dijkstra
+        dijkstra_time = measure_time(dijkstra, graph, 'A')
+        dijkstra_times.append(dijkstra_time)
+
+        # Medindo o tempo para Bellman-Ford
+        bellman_ford_time = measure_time(bellman_ford, graph, 'A')
+        bellman_ford_times.append(bellman_ford_time)
+    
+    return dijkstra_times, bellman_ford_times
+
+# Plotando os tempos de execução
+def plot_execution_times(dijkstra_times, bellman_ford_times):
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(2, len(dijkstra_times) + 2), dijkstra_times, label="Dijkstra", marker='o')
+    plt.plot(range(2, len(bellman_ford_times) + 2), bellman_ford_times, label="Bellman-Ford", marker='s')
+
+    plt.title("Tempo de Execução: Dijkstra vs Bellman-Ford")
+    plt.xlabel("Número de nós no grafo")
+    plt.ylabel("Tempo de execução (segundos)")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Gerando e plotando os tempos de execução
+dijkstra_times, bellman_ford_times = generate_graph_data(max_nodes=10)
+plot_execution_times(dijkstra_times, bellman_ford_times)
